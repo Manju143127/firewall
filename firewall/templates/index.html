@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Firewall</title>
+    <style>
+        body { background-color: #111; color: #0f0; font-family: monospace; padding: 20px; }
+        input, select { padding: 5px; margin-right: 10px; }
+        .rule-list { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Python Network Firewall</h1>
+
+    <form method="POST" action="/add_rule">
+        <select name="type">
+            <option value="block_ip">Block IP</option>
+            <option value="block_port">Block Port</option>
+            <option value="block_proto">Block Protocol</option>
+        </select>
+        <input type="text" name="value" placeholder="e.g., 192.168.1.1 or 80 or TCP" required>
+        <button type="submit">Add Rule</button>
+    </form>
+
+    <div class="rule-list">
+        <h3>Current Rules</h3>
+        {% for rule_type, values in rules.items() %}
+            <strong>{{ rule_type }}</strong>:
+            <ul>
+            {% for val in values %}
+                <li>
+                    {{ val }}
+                    <form method="POST" action="/remove_rule" style="display:inline;">
+                        <input type="hidden" name="type" value="{{ rule_type }}">
+                        <input type="hidden" name="value" value="{{ val }}">
+                        <button type="submit">❌</button>
+                    </form>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+</body>
+</html>
